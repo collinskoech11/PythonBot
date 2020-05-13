@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ChatBot Interface</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Flask ChatterBot example</h1>
+    <div>
+        <div id="chatbox">
+            <p class="botText"><span>Hi! Im ChatterBot</span></p>
+        </div>
+        <div id="userInput">
+            <input id="textInput" type="text" name="msg" placeholder="Message">
+            <input id="buttonInput" type="submit" value="send">
+        </div>
+    </div>
+    <script>
+        function getBotResponse() {
+        var rawText=$("textInput").val();
+        var userHtml ='<p class="botText"><<span> + rawText + </span></p>';
+        $("#textInput").val("");
+        $("#chatBox").append(userHtml);
+        document.getElementById('userInput').scrollIntoView({block:'start', behaviour:'smooth'});
+        $.get("/get", {msg:rawText}).done(function(data) {
+         var botHtml = '<p class="botText"><<span> + rawText + </span></p>';
+         $("#chatbox").append(botHtml);
+         document.getElementById('userInput').scrollIntoView({block:'start', behaviour:'smooth'});
+        });
+       }
+       $("#textInput").keypress(function(e) {
+            if(e.which == 13) (
+                 getBotResponse();
+             }
+        });
+        $("#buttonInput").Click(function() {
+            getBotResponse();
+            })
+    </script>
+</body>
+</html>
